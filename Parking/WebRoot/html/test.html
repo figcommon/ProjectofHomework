@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manager</title>
+    <!-- 新 Bootstrap4 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <!-- popper.min.js 用于弹窗、提示、下拉菜单 -->
+
+    <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+
+    <!-- 最新的 Bootstrap4 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+
+    <script src="/Parking/bootstrap-4.0.0-dist/js/jquery-1.9.1.min.js"></script>
+    <script src="/Parking/bootstrap-4.0.0-dist/js/bootstrap.min.js"></script>
+    <link href="/Parking/bootstrap-4.0.0-dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+
+
+<div class="jumbotron text-center" style="margin-bottom:0">
+    <h1 style="text-shadow:4px 4px 5px gray">管理员管理界面</h1>
+</div>
+
+
+<hr/>
+<div class="container">
+    <br>
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#home">用户信息</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#menu1">停车记录信息</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#menu2">停车价格</a>
+        </li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div id="home" class="container tab-pane active"><br>
+            <!--<hr/>-->
+            <div class="container">
+                <h2 style="text-align: center">用户信息表</h2>
+                <button class="btn btn-primary col-2 offset-md-9" onclick="getAllCardInfo('汉字')">查询用户信息表</button>
+                <p>显示用户信息</p>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>账户id</th>
+                        <th>用户名</th>
+                        <th>电话</th>
+                        <th>密码</th>
+                        <th>车牌号</th>
+                        <th>月卡到期时间</th>
+                        <th>操作</th>
+                        <style>
+                           th{
+                           background-color:lightblue;
+                           }
+                        </style>
+                    </tr>
+                    </thead>
+                    <tbody id="cardInfoTable">
+                    </tbody>
+                </table>
+            </div>
+            
+            <br/>
+            <br/>
+            <hr/>
+            <div class="container">
+                <div class="card bg-secondary text-white">
+                    <div class="card-body">修改用户信息</div>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="u_id">用户id:</label>
+                    <input type="text" class="form-control" id="u_id" placeholder="Enter u_id">
+                </div>
+                <div class="form-group">
+                    <label for="u_name">用户名:</label>
+                    <input type="text" class="form-control" id="u_name" placeholder="Enter u_name">
+                </div>
+                <div class="form-group">
+                    <label for="u_telnum">手机号:</label>
+                    <input type="text" class="form-control" id="u_telnum" placeholder="Enter u_telnum">
+                </div>
+                <div class="form-group">
+                    <label for="u_password">密码:</label>
+                    <input type="text" class="form-control" id="u_password" placeholder="Enter u_password">
+                </div>
+                <div class="form-group">
+                    <label for="u_cid">车牌号:</label>
+                    <input type="text" class="form-control" id="u_cid" placeholder="XX-XXXXX">
+                </div>
+                <div class="form-group">
+                    <label for="u_endtime">结束时间:</label>
+                    <input type="date" class="form-control" id="u_endtime" placeholder="XXXX-XX-XX XX:XX:XX.0">
+                </div>
+                <button class="btn btn-primary" onClick="modify(u_id.value, u_name.value, u_telnum.value, u_password.value, u_cid.value, u_endtime.value)">确认修改/添加</button>
+            </div>
+        </div>
+
+        <div id="menu1" class="container tab-pane fade"><br>
+            <!--<hr/>-->
+            <div class="container">
+                <h2 style="text-align: center">停车记录信息表</h2>
+                <button class="btn btn-primary col-2 offset-md-9" onclick="getAllParkingInfo('汉字')">查询停车信息表</button>
+                <p>显示停车记录信息</p>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>唯一id</th>
+                        <th>车牌号</th>
+                        <th>车辆进入车库时间</th>
+                        <th>车辆出车库时间</th>
+                        <th>车辆类型id</th>
+                        <th>是否在车库中</th>
+                        <th>本次停车费用</th>
+                        <th>是否为临时停车</th>
+                    </tr>
+                    </thead>
+                    <tbody id="parkingInfoTable">
+                    </tbody>
+                </table>
+            </div>
+
+            <br/>
+            <br/>
+            <hr/>
+            <div class="container">
+                <div class="card bg-secondary text-white">
+                    <div class="card-body">查询停车记录</div>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="cid">车牌号:</label>
+                    <input type="text" class="form-control" id="cid" placeholder="XX-XXXXX">
+                </div>
+                <div class="form-group">
+                    <label for="intime">开始时间:</label>
+                    <input type="date" class="form-control" id="intime" placeholder="XXXX-XX-XX XX:XX:XX.0">
+                </div>
+                <div class="form-group">
+                    <label for="outtime">结束时间:</label>
+                    <input type="date" class="form-control" id="outtime" placeholder="XXXX-XX-XX XX:XX:XX.0">
+                </div>
+                <button class="btn btn-primary" onClick="searchInfo(cid.value, intime.value, outtime.value)">查询</button>
+            </div>
+        </div>
+        <div id="menu2" class="container tab-pane fade"><br>
+            <!--<hr/>-->
+            <div class="container">
+                <h2 style="text-align: center">停车价格表</h2>
+                <button class="btn btn-primary col-2 offset-md-9" onclick="getAllPrice('汉字')">查询价格表</button>
+                <p>显示停车价格的信息</p>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>类型id</th>
+                        <th>车辆类型名</th>
+                        <th>每停一小时的收费价格</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="priceTable">
+                    </tbody>
+                </table>
+            </div>
+
+            <br/>
+            <br/>
+            <hr/>
+            <div class="container">
+                <div class="card bg-secondary text-white">
+                    <div class="card-body">添加车型</div>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="typeid">类型id:</label>
+                    <input type="text"  class="form-control" id="typeid" placeholder="Enter typeid">
+                </div>
+                <div class="form-group">
+                    <label for="typename">车辆类型名:</label>
+                    <input type="text" class="form-control" id="typename" placeholder="Enter typename">
+                </div>
+                <div class="form-group">
+                    <label for="perprice">每停一小时的单价:()</label>
+                    <input type="number" min=0  class="form-control" id="perprice" placeholder="Enter perprice">
+                </div>
+                <button class="btn btn-primary" onClick="addPrice(typeid.value, typename.value, perprice.value)">添加车型</button>
+
+            </div>
+            
+        </div>
+    </div>
+    <div style="height:600px;width:100%;"></div>
+</div>
+
+
+
+
+
+
+
+
+<script type="text/javascript" src='/Parking/util/Ajax.js'></script>
+<script type="text/javascript" src='/Parking/html/test.js'></script>
+
+
+</body>
+</html>
